@@ -1,0 +1,44 @@
+### These sample requests work directly in IntelliJ IDEA's HTTP client,
+### or you can copy the curl-equivalent into Postman/terminal.
+
+### 1. Add a new employee
+POST http://localhost:8080/api/v1/employees
+Content-Type: application/json
+
+{
+  "firstName": "Anjali",
+  "lastName": "Rao",
+  "email": "anjali.rao@example.com",
+  "phoneNumber": "9876543210",
+  "department": "Engineering",
+  "designation": "Backend Developer",
+  "salary": 65000,
+  "dateOfJoining": "2024-03-15"
+}
+
+### 2. Get all employees
+GET http://localhost:8080/api/v1/employees
+
+### 3. Get a single employee by id
+GET http://localhost:8080/api/v1/employees/1
+
+### 4. Search employees by name (matches first or last name, partial + case-insensitive)
+GET http://localhost:8080/api/v1/employees/search?name=anj
+
+### 5. Update an employee
+PUT http://localhost:8080/api/v1/employees/1
+Content-Type: application/json
+
+{
+  "firstName": "Anjali",
+  "lastName": "Rao",
+  "email": "anjali.rao@example.com",
+  "phoneNumber": "9876543210",
+  "department": "Engineering",
+  "designation": "Senior Backend Developer",
+  "salary": 80000,
+  "dateOfJoining": "2024-03-15"
+}
+
+### 6. Delete an employee
+DELETE http://localhost:8080/api/v1/employees/1
