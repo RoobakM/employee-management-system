@@ -340,6 +340,38 @@
             padding: 20px;
         }
 
+        /* Pagination Button Styles */
+        .pagination-btn {
+            padding: 8px 12px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .pagination-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .pagination-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .sort-indicator {
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+
         @media (max-width: 768px) {
             header h1 {
                 font-size: 1.8em;
@@ -400,6 +432,20 @@
                 </div>
             </div>
 
+            <!-- Pagination Controls -->
+            <div class="pagination-controls" style="margin-bottom: 20px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+                <div>
+                    <label>Rows per page:</label>
+                    <select id="rowsPerPageSelect" onchange="changeRowsPerPage()" style="margin-left: 10px;">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+                <div id="pageInfo" style="color: #666; font-weight: 600;"></div>
+                <div id="paginationButtons" style="display: flex; gap: 5px;"></div>
+            </div>
+
             <!-- Employees Table -->
             <div class="table-wrapper">
                 <div id="loadingContainer" class="loading" style="display: none;">
@@ -409,13 +455,13 @@
                 <table id="employeesTable" style="display: none;">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Department</th>
-                            <th>Designation</th>
-                            <th>Salary</th>
-                            <th>Date of Joining</th>
+                            <th onclick="sortTable('id')" style="cursor: pointer; user-select: none;">ID <span id="sort-id"></span></th>
+                            <th onclick="sortTable('name')" style="cursor: pointer; user-select: none;">Name <span id="sort-name"></span></th>
+                            <th onclick="sortTable('email')" style="cursor: pointer; user-select: none;">Email <span id="sort-email"></span></th>
+                            <th onclick="sortTable('department')" style="cursor: pointer; user-select: none;">Department <span id="sort-department"></span></th>
+                            <th onclick="sortTable('designation')" style="cursor: pointer; user-select: none;">Designation <span id="sort-designation"></span></th>
+                            <th onclick="sortTable('salary')" style="cursor: pointer; user-select: none;">Salary <span id="sort-salary"></span></th>
+                            <th onclick="sortTable('dateOfJoining')" style="cursor: pointer; user-select: none;">Date of Joining <span id="sort-dateOfJoining"></span></th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -495,8 +541,13 @@
     <script>
         const API_URL = 'http://localhost:8080/api/v1/employees';
         let employees = [];
+        let filteredEmployees = [];
         let currentEditId = null;
         let deleteTargetId = null;
+        let currentPage = 1;
+        let rowsPerPage = 10;
+        let sortColumn = null;
+        let sortDirection = 'asc'; // 'asc' or 'desc'
 
         // Load employees on page load
         document.addEventListener('DOMContentLoaded', () => {
@@ -512,7 +563,9 @@
                 
                 if (result.success) {
                     employees = result.data || [];
-                    renderTable(employees);
+                    filteredEmployees = [...employees];
+                    currentPage = 1;
+                    renderTable();
                     showLoading(false);
                 } else {
                     showAlert('Error loading employees', 'error');
@@ -525,23 +578,93 @@
             }
         }
 
-        // Render employees table
-        function renderTable(data) {
-            const tbody = document.getElementById('employeesBody');
+        // Sort table
+        function sortTable(column) {
+            // If clicking the same column, toggle direction; otherwise, set to asc
+            if (sortColumn === column) {
+                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortColumn = column;
+                sortDirection = 'asc';
+            }
+
+            // Clear all sort indicators
+            document.querySelectorAll('[id^="sort-"]').forEach(el => el.textContent = '');
+
+            // Sort the filtered employees
+            filteredEmployees.sort((a, b) => {
+                let aVal, bVal;
+
+                if (column === 'name') {
+                    aVal = (a.firstName + ' ' + a.lastName).toLowerCase();
+                    bVal = (b.firstName + ' ' + b.lastName).toLowerCase();
+                } else if (column === 'id') {
+                    aVal = a.id;
+                    bVal = b.id;
+                } else if (column === 'email') {
+                    aVal = a.email.toLowerCase();
+                    bVal = b.email.toLowerCase();
+                } else if (column === 'department') {
+                    aVal = a.department.toLowerCase();
+                    bVal = b.department.toLowerCase();
+                } else if (column === 'designation') {
+                    aVal = a.designation.toLowerCase();
+                    bVal = b.designation.toLowerCase();
+                } else if (column === 'salary') {
+                    aVal = a.salary;
+                    bVal = b.salary;
+                } else if (column === 'dateOfJoining') {
+                    aVal = new Date(a.dateOfJoining);
+                    bVal = new Date(b.dateOfJoining);
+                }
+
+                if (typeof aVal === 'string') {
+                    return sortDirection === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+                } else {
+                    return sortDirection === 'asc' ? aVal - bVal : bVal - aVal;
+                }
+            });
+
+            // Add sort indicator
+            const indicator = sortDirection === 'asc' ? '▲' : '▼';
+            const sortEl = document.getElementById(`sort-${column}`);
+            if (sortEl) {
+                sortEl.textContent = `<span class="sort-indicator">${indicator}</span>`;
+                sortEl.innerHTML = `<span class="sort-indicator" style="color: #667eea;">${indicator}</span>`;
+            }
+
+            currentPage = 1;
+            renderTable();
+        }
+
+        // Render employees table with pagination
+        function renderTable() {
             const table = document.getElementById('employeesTable');
             const emptyState = document.getElementById('emptyState');
+            const tbody = document.getElementById('employeesBody');
 
-            if (data.length === 0) {
+            if (filteredEmployees.length === 0) {
                 table.style.display = 'none';
                 emptyState.style.display = 'block';
+                document.querySelector('.pagination-controls').style.display = 'none';
                 return;
             }
 
             table.style.display = 'table';
             emptyState.style.display = 'none';
+            document.querySelector('.pagination-controls').style.display = 'flex';
+
+            // Calculate pagination
+            const totalPages = Math.ceil(filteredEmployees.length / rowsPerPage);
+            const startIdx = (currentPage - 1) * rowsPerPage;
+            const endIdx = startIdx + rowsPerPage;
+            const pageData = filteredEmployees.slice(startIdx, endIdx);
+
+            // Clear tbody
             tbody.innerHTML = '';
 
-            data.forEach(emp => {
+            // Add rows
+            pageData.forEach(emp => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${emp.id}</td>
@@ -560,27 +683,87 @@
                 `;
                 tbody.appendChild(row);
             });
+
+            // Update page info
+            document.getElementById('pageInfo').textContent = 
+                `Page ${currentPage} of ${totalPages} (${filteredEmployees.length} total)`;
+
+            // Update pagination buttons
+            renderPaginationButtons(totalPages);
+        }
+
+        // Render pagination buttons
+        function renderPaginationButtons(totalPages) {
+            const container = document.getElementById('paginationButtons');
+            container.innerHTML = '';
+
+            // Previous button
+            const prevBtn = document.createElement('button');
+            prevBtn.className = 'pagination-btn';
+            prevBtn.textContent = '← Previous';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderTable();
+                }
+            };
+            container.appendChild(prevBtn);
+
+            // Page number buttons
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+                btn.textContent = i;
+                btn.onclick = () => {
+                    currentPage = i;
+                    renderTable();
+                };
+                container.appendChild(btn);
+            }
+
+            // Next button
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'pagination-btn';
+            nextBtn.textContent = 'Next →';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderTable();
+                }
+            };
+            container.appendChild(nextBtn);
+        }
+
+        // Change rows per page
+        function changeRowsPerPage() {
+            rowsPerPage = parseInt(document.getElementById('rowsPerPageSelect').value);
+            currentPage = 1;
+            renderTable();
         }
 
         // Search employees
         function searchEmployees() {
             const query = document.getElementById('searchInput').value.trim();
             if (query === '') {
-                renderTable(employees);
-                return;
+                filteredEmployees = [...employees];
+            } else {
+                filteredEmployees = employees.filter(emp =>
+                    emp.firstName.toLowerCase().includes(query.toLowerCase()) ||
+                    emp.lastName.toLowerCase().includes(query.toLowerCase())
+                );
             }
-
-            const filtered = employees.filter(emp =>
-                emp.firstName.toLowerCase().includes(query.toLowerCase()) ||
-                emp.lastName.toLowerCase().includes(query.toLowerCase())
-            );
-            renderTable(filtered);
+            currentPage = 1;
+            renderTable();
         }
 
         // Clear search
         function clearSearch() {
             document.getElementById('searchInput').value = '';
-            renderTable(employees);
+            filteredEmployees = [...employees];
+            currentPage = 1;
+            renderTable();
         }
 
         // Open add modal
