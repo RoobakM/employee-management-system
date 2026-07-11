@@ -1,6 +1,16 @@
 # Employee Management System
 
-A complete, production-ready employee management application with a professional **REST API backend** and a **responsive web frontend**. Built with Spring Boot 3.2.5, Spring Data JPA, MySQL 8, and vanilla HTML/CSS/JavaScript.
+A complete, production-ready, **fully deployed** employee management application with a professional **REST API backend** and a **responsive web frontend**. Built with Spring Boot 3.2.5, Spring Data JPA, MySQL 8, and vanilla HTML/CSS/JavaScript.
+
+## 🚀 Live Demo
+
+**Frontend (GitHub Pages):** https://roobakm.github.io/employee-management-system/
+
+**Backend API (Railway):** https://employee-management-system-production-b757.up.railway.app/api/v1/employees
+
+**GitHub Repository:** https://github.com/RoobakM/employee-management-system
+
+---
 
 ## Project Description
 
@@ -148,13 +158,35 @@ A ready-to-use set of sample requests is included in **`requests.http`**
 
 ## How to Run
 
-### Prerequisites
+### Access the Live Application (No Setup Needed!) 🌐
+
+**The application is already deployed and live online:**
+
+1. **Open the Frontend:** https://roobakm.github.io/employee-management-system/
+2. **View your 4 employees:** Jahir Husain, Yogesh Ramu, Umar Shabab, Gopal R
+3. **Try these features:**
+   - Add a new employee
+   - Edit employee details
+   - Delete employees
+   - Search by name
+   - Sort by clicking column headers
+   - Change rows per page (10, 25, 50)
+
+That's it! No installation needed. Everything works in your browser.
+
+---
+
+### Run Locally (For Development)
+
+If you want to run this project on your own machine:
+
+#### Prerequisites
 - Java 17+
 - Maven 3.8+
 - MySQL 8 running locally (or a remote instance)
 - A modern web browser (Chrome, Firefox, Safari, Edge)
 
-### Backend Setup
+#### Backend Setup
 
 **Step 1: Clone the repository**
 ```bash
@@ -180,34 +212,54 @@ mvn spring-boot:run
 
 You should see `Tomcat started on port(s): 8080 (http)` near the end. The API is now live at `http://localhost:8080`.
 
-### Frontend Setup
+#### Frontend Setup (Local)
 
-**Step 1: Place the HTML file**
-Copy `index.html` into the project's root directory (same folder as `pom.xml`).
-
-**Step 2: Open in your browser**
-Keep the backend running (step above), then open `index.html` in your web browser by double-clicking it in Windows Explorer (or dragging it to your browser).
-
-The frontend will automatically load all employees and display them in a paginated table.
-
-### Quick Test
-```bash
-# Create a sample employee via PowerShell
-$body = @{
-    firstName = "Anjali"
-    lastName = "Rao"
-    email = "anjali.rao@example.com"
-    phoneNumber = "9876543210"
-    department = "Engineering"
-    designation = "Backend Developer"
-    salary = 65000
-    dateOfJoining = "2024-03-15"
-} | ConvertTo-Json
-
-Invoke-RestMethod -Uri "http://localhost:8080/api/v1/employees" -Method Post -Body $body -ContentType "application/json"
+**Step 1: Update the API URL**
+Edit `index.html` and change:
+```javascript
+const API_URL = 'http://localhost:8080/api/v1/employees';
 ```
 
-Then open `index.html` and you'll see the new employee in the table.
+**Step 2: Open in your browser**
+Keep the backend running, then open `index.html` in your web browser by double-clicking it in Windows Explorer.
+
+---
+
+### Quick Test (Verify Live API)
+
+Test your live Railway API with this PowerShell command:
+
+```powershell
+Invoke-RestMethod -Uri "https://employee-management-system-production-b757.up.railway.app/api/v1/employees" -Method Get | ConvertTo-Json -Depth 10
+```
+
+You should see your 4 employees in JSON format.
+
+## Deployment Architecture
+
+This project is deployed across two platforms for optimal performance and accessibility:
+
+### Frontend Hosting (GitHub Pages)
+- **URL:** https://roobakm.github.io/employee-management-system/
+- **Cost:** Free forever
+- **Technology:** Static HTML/CSS/JavaScript
+- **Auto-deployed:** Whenever you push to GitHub
+
+### Backend Hosting (Railway)
+- **URL:** https://employee-management-system-production-b757.up.railway.app
+- **Cost:** Free tier ($5/month credit, sufficient for low-traffic apps)
+- **Technology:** Java Spring Boot + MySQL
+- **Database:** MySQL 8 (managed database)
+- **Auto-deployed:** From GitHub repo
+
+### Data Flow
+```
+User Browser (GitHub Pages) 
+    ↓ HTTP/CORS
+Railway API (Spring Boot)
+    ↓ JDBC
+Railway MySQL Database
+```
 
 ## Project Structure
 
@@ -279,6 +331,29 @@ export DB_USERNAME=prod_user
 export DB_PASSWORD=your_secure_password
 mvn spring-boot:run
 ```
+
+## Current Data
+
+The live database currently contains **4 employees:**
+
+| ID | Name | Email | Department | Designation | Salary | Joining Date |
+|----|------|-------|-----------|-------------|--------|--------------|
+| 2 | Jahir Husain | jack@gmail.com | Engineering | Backend Developer | ₹68,000 | 2024-03-15 |
+| 3 | Yogesh Ramu | yoge@gmail.com | Deploy | Dev Ops | ₹80,000 | 2026-05-20 |
+| 4 | Umar Shabab | Shabab04@gmail.com | Developer | Full Stack | ₹60,000 | 2026-06-05 |
+| 5 | Gopal R | gopalyogi@gmail.com | Marketing | Editor | ₹40,000 | 2026-07-10 |
+
+---
+
+## Deployment Status
+
+✅ **Live & Working**
+- Frontend: Deployed on GitHub Pages
+- Backend: Deployed on Railway
+- Database: Active with live data
+- Data Synchronization: Real-time
+
+**Last Updated:** June 2026
 
 ## License
 
