@@ -12,8 +12,8 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -22,30 +22,51 @@
             max-width: 1200px;
             margin: 0 auto;
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
             overflow: hidden;
         }
 
         header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 30px;
+            padding: 40px 30px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,64 Q300,120 600,64 T1200,64 L1200,0 L0,0 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
         }
 
         header h1 {
             font-size: 2.5em;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            position: relative;
+            z-index: 1;
         }
 
         header p {
-            opacity: 0.9;
-            font-size: 1em;
+            opacity: 0.95;
+            font-size: 1.1em;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 1;
         }
 
         .content {
-            padding: 30px;
+            padding: 35px;
         }
 
         .controls {
@@ -62,11 +83,13 @@
         input[type="number"],
         input[type="date"],
         select {
-            padding: 10px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
+            padding: 12px 16px;
+            border: 2px solid #e8eef5;
+            border-radius: 10px;
             font-size: 1em;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
+            background: #f8fafb;
+            font-family: inherit;
         }
 
         input[type="text"]:focus,
@@ -77,13 +100,15 @@
         select:focus {
             outline: none;
             border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .btn {
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 6px;
-            font-size: 1em;
+            border-radius: 10px;
+            font-size: 0.95em;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
@@ -152,24 +177,32 @@
         }
 
         thead {
-            background: #f5f5f5;
+            background: linear-gradient(180deg, #f8fafb 0%, #f0f3f7 100%);
             border-bottom: 3px solid #667eea;
         }
 
         th {
-            padding: 15px;
+            padding: 16px;
             text-align: left;
-            font-weight: 600;
-            color: #333;
+            font-weight: 700;
+            color: #495057;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         td {
-            padding: 15px;
-            border-bottom: 1px solid #e0e0e0;
+            padding: 16px;
+            border-bottom: 1px solid #e8eef5;
+            font-size: 0.95em;
+        }
+
+        tbody tr {
+            transition: all 0.2s;
         }
 
         tbody tr:hover {
-            background: #f9f9f9;
+            background: #f8fafb;
         }
 
         .actions {
@@ -191,7 +224,7 @@
             opacity: 0.5;
         }
 
-        /* Modal Styles */
+        /* Modal Styles - IMPROVED */
         .modal {
             display: none;
             position: fixed;
@@ -200,14 +233,14 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.4);
             animation: fadeIn 0.3s;
+            justify-content: center;
+            align-items: center;
         }
 
         .modal.active {
             display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         @keyframes fadeIn {
@@ -217,19 +250,21 @@
 
         .modal-content {
             background-color: white;
-            padding: 30px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 500px;
+            padding: 0;
+            border-radius: 16px;
+            width: 95%;
+            max-width: 480px;
             max-height: 90vh;
-            overflow-y: auto;
+            overflow: hidden;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             animation: slideIn 0.3s;
+            display: flex;
+            flex-direction: column;
         }
 
         @keyframes slideIn {
             from {
-                transform: translateY(-50px);
+                transform: translateY(-30px);
                 opacity: 0;
             }
             to {
@@ -239,85 +274,112 @@
         }
 
         .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #e0e0e0;
-            padding-bottom: 15px;
+            padding: 24px;
+            border-bottom: none;
         }
 
         .modal-header h2 {
             margin: 0;
-            color: #333;
+            font-size: 1.5em;
+            font-weight: 700;
         }
 
         .close-btn {
-            background: none;
+            background: rgba(255, 255, 255, 0.2);
             border: none;
             font-size: 1.5em;
             cursor: pointer;
-            color: #999;
+            color: white;
+            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
         }
 
         .close-btn:hover {
-            color: #333;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             font-weight: 600;
             color: #333;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
         }
 
         .form-group input,
         .form-group select {
             width: 100%;
+            font-size: 0.95em;
+            padding: 11px 14px;
+            background: #f8fafb;
         }
 
         .modal-footer {
             display: flex;
             gap: 10px;
             justify-content: flex-end;
-            margin-top: 20px;
-            border-top: 2px solid #e0e0e0;
-            padding-top: 15px;
+            padding: 16px 24px;
+            background: #f8fafb;
+            border-top: 1px solid #e8eef5;
+        }
+
+        .modal-footer .btn {
+            padding: 10px 20px;
+            font-size: 0.85em;
         }
 
         /* Alert Styles */
         .alert {
-            padding: 15px 20px;
-            border-radius: 6px;
+            padding: 14px 18px;
+            border-radius: 10px;
             margin-bottom: 20px;
             animation: slideIn 0.3s;
+            border-left: 4px solid;
         }
 
         .alert-success {
             background: #d4edda;
             color: #155724;
-            border: 1px solid #c3e6cb;
+            border-left-color: #28a745;
         }
 
         .alert-error {
             background: #f8d7da;
             color: #721c24;
-            border: 1px solid #f5c6cb;
+            border-left-color: #dc3545;
         }
 
         .alert-info {
             background: #d1ecf1;
             color: #0c5460;
-            border: 1px solid #bee5eb;
+            border-left-color: #17a2b8;
         }
 
         .loading {
             text-align: center;
-            padding: 20px;
+            padding: 40px 20px;
             color: #667eea;
         }
 
@@ -325,10 +387,10 @@
             border: 4px solid #f3f3f3;
             border-top: 4px solid #667eea;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
+            margin: 0 auto 15px;
         }
 
         @keyframes spin {
@@ -340,6 +402,66 @@
             color: #999;
             text-align: center;
             padding: 20px;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8fafb;
+            border-radius: 10px;
+        }
+
+        .pagination-controls label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .pagination-controls select {
+            padding: 8px 12px;
+            border: 2px solid #e8eef5;
+            border-radius: 8px;
+        }
+
+        #pageInfo {
+            color: #666;
+            font-weight: 600;
+        }
+
+        #paginationButtons {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .pagination-btn {
+            padding: 8px 12px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+
+        .pagination-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .pagination-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         /* Pagination Button Styles */
@@ -484,44 +606,46 @@
                 <h2 id="modalTitle">Add Employee</h2>
                 <button class="close-btn" onclick="closeModal()">×</button>
             </div>
-            <form id="employeeForm" onsubmit="saveEmployee(event)">
-                <div class="form-group">
-                    <label for="firstName">First Name *</label>
-                    <input type="text" id="firstName" required>
-                </div>
-                <div class="form-group">
-                    <label for="lastName">Last Name *</label>
-                    <input type="text" id="lastName" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email *</label>
-                    <input type="email" id="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="phoneNumber">Phone Number</label>
-                    <input type="tel" id="phoneNumber" placeholder="e.g., 9876543210">
-                </div>
-                <div class="form-group">
-                    <label for="department">Department *</label>
-                    <input type="text" id="department" required>
-                </div>
-                <div class="form-group">
-                    <label for="designation">Designation *</label>
-                    <input type="text" id="designation" required>
-                </div>
-                <div class="form-group">
-                    <label for="salary">Salary *</label>
-                    <input type="number" id="salary" step="0.01" required>
-                </div>
-                <div class="form-group">
-                    <label for="dateOfJoining">Date of Joining *</label>
-                    <input type="date" id="dateOfJoining" required>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Employee</button>
-                </div>
-            </form>
+            <div class="modal-body">
+                <form id="employeeForm" onsubmit="saveEmployee(event)">
+                    <div class="form-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber">Phone Number</label>
+                        <input type="tel" id="phoneNumber" placeholder="e.g., 9876543210">
+                    </div>
+                    <div class="form-group">
+                        <label for="department">Department *</label>
+                        <input type="text" id="department" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="designation">Designation *</label>
+                        <input type="text" id="designation" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="salary">Salary *</label>
+                        <input type="number" id="salary" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateOfJoining">Date of Joining *</label>
+                        <input type="date" id="dateOfJoining" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button type="submit" class="btn btn-primary" onclick="submitForm()">Save Employee</button>
+            </div>
         </div>
     </div>
 
@@ -801,6 +925,10 @@
         }
 
         // Save employee
+        function submitForm() {
+            document.getElementById('employeeForm').dispatchEvent(new Event('submit'));
+        }
+
         async function saveEmployee(event) {
             event.preventDefault();
 
