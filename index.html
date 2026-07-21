@@ -36,17 +36,6 @@
             overflow: hidden;
         }
 
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,64 Q300,120 600,64 T1200,64 L1200,0 L0,0 Z" fill="rgba(255,255,255,0.1)"/></svg>');
-            background-size: cover;
-        }
-
         header h1 {
             font-size: 2.5em;
             margin-bottom: 8px;
@@ -67,6 +56,60 @@
 
         .content {
             padding: 35px;
+        }
+
+        /* Statistics Dashboard */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-card.alt1 {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+        }
+
+        .stat-card.alt2 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .stat-card.alt3 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-unit {
+            font-size: 0.85em;
+            opacity: 0.85;
         }
 
         .controls {
@@ -123,16 +166,16 @@
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 12px 24px rgba(102, 126, 234, 0.3);
         }
 
         .btn-secondary {
-            background: #e0e0e0;
-            color: #333;
+            background: #e8eef5;
+            color: #495057;
         }
 
         .btn-secondary:hover {
-            background: #d0d0d0;
+            background: #d8dfe5;
         }
 
         .btn-danger {
@@ -147,8 +190,8 @@
         .btn-edit {
             background: #4ecdc4;
             color: white;
-            padding: 8px 15px;
-            font-size: 0.9em;
+            padding: 8px 14px;
+            font-size: 0.85em;
         }
 
         .btn-edit:hover {
@@ -158,7 +201,6 @@
         .search-section {
             display: flex;
             gap: 10px;
-            margin-bottom: 20px;
         }
 
         .search-section input {
@@ -166,14 +208,10 @@
             min-width: 200px;
         }
 
-        .table-wrapper {
-            overflow-x: auto;
-            margin-bottom: 20px;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 20px;
         }
 
         thead {
@@ -189,6 +227,12 @@
             font-size: 0.95em;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        th:hover {
+            background: #e8eef5;
         }
 
         td {
@@ -197,34 +241,60 @@
             font-size: 0.95em;
         }
 
-        tbody tr {
-            transition: all 0.2s;
-        }
-
         tbody tr:hover {
             background: #f8fafb;
         }
 
         .actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
         .empty-state {
             text-align: center;
-            padding: 40px 20px;
+            padding: 50px 20px;
             color: #999;
         }
 
-        .empty-state svg {
-            width: 80px;
-            height: 80px;
+        .pagination-controls {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
             margin-bottom: 20px;
-            opacity: 0.5;
+            padding: 15px;
+            background: #f8fafb;
+            border-radius: 10px;
         }
 
-        /* Modal Styles - IMPROVED */
+        .pagination-btn {
+            padding: 8px 12px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+
+        .pagination-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .pagination-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -234,18 +304,12 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.4);
-            animation: fadeIn 0.3s;
             justify-content: center;
             align-items: center;
         }
 
         .modal.active {
             display: flex;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
 
         .modal-content {
@@ -280,7 +344,6 @@
             justify-content: space-between;
             align-items: center;
             padding: 24px;
-            border-bottom: none;
         }
 
         .modal-header h2 {
@@ -333,7 +396,6 @@
             width: 100%;
             font-size: 0.95em;
             padding: 11px 14px;
-            background: #f8fafb;
         }
 
         .modal-footer {
@@ -350,7 +412,6 @@
             font-size: 0.85em;
         }
 
-        /* Alert Styles */
         .alert {
             padding: 14px 18px;
             border-radius: 10px;
@@ -369,12 +430,6 @@
             background: #f8d7da;
             color: #721c24;
             border-left-color: #dc3545;
-        }
-
-        .alert-info {
-            background: #d1ecf1;
-            color: #0c5460;
-            border-left-color: #17a2b8;
         }
 
         .loading {
@@ -398,185 +453,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        .no-data {
-            color: #999;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .pagination-controls {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f8fafb;
-            border-radius: 10px;
-        }
-
-        .pagination-controls label {
-            font-weight: 600;
-            color: #495057;
-        }
-
-        .pagination-controls select {
-            padding: 8px 12px;
-            border: 2px solid #e8eef5;
-            border-radius: 8px;
-        }
-
-        #pageInfo {
-            color: #666;
-            font-weight: 600;
-        }
-
-        #paginationButtons {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-
-        .pagination-btn {
-            padding: 8px 12px;
-            border: 2px solid #667eea;
-            background: white;
-            color: #667eea;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            font-size: 0.9em;
-        }
-
-        .pagination-btn:hover {
-            background: #667eea;
-            color: white;
-        }
-
-        .pagination-btn.active {
-            background: #667eea;
-            color: white;
-        }
-
-        .pagination-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* Pagination Button Styles */
-        .pagination-btn {
-            padding: 8px 12px;
-            border: 2px solid #667eea;
-            background: white;
-            color: #667eea;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .pagination-btn:hover {
-            background: #667eea;
-            color: white;
-        }
-
-        .pagination-btn.active {
-            background: #667eea;
-            color: white;
-        }
-
-        .pagination-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .sort-indicator {
-            font-size: 0.8em;
-            margin-left: 5px;
-        }
-
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 24px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
-            transition: all 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(102, 126, 234, 0.3);
-        }
-
-        .stat-card.alt1 {
-            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
-        }
-
-        .stat-card.alt2 {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-
-        .stat-card.alt3 {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-
-        .stat-label {
-            font-size: 0.9em;
-            opacity: 0.9;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .stat-value {
-            font-size: 2.5em;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .stat-unit {
-            font-size: 0.85em;
-            opacity: 0.85;
-        }
-
-        .department-stats {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .department-stat {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            font-size: 0.95em;
-        }
-
-        .department-stat-bar {
-            height: 6px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 3px;
-            margin-top: 4px;
-            overflow: hidden;
-        }
-
-        .department-stat-fill {
-            height: 100%;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 3px;
-            transition: width 0.3s;
-        }
+        @media (max-width: 768px) {
             header h1 {
                 font-size: 1.8em;
             }
@@ -588,14 +465,6 @@
             .controls input,
             .controls button {
                 width: 100%;
-            }
-
-            .search-section {
-                flex-direction: column;
-            }
-
-            .search-section input {
-                min-width: unset;
             }
 
             table {
@@ -613,7 +482,7 @@
             .actions button {
                 width: 100%;
             }
-        
+        }
     </style>
 </head>
 <body>
@@ -639,45 +508,41 @@
                 </div>
             </div>
 
-            <!-- Pagination Controls -->
-            <div class="pagination-controls" style="margin-bottom: 20px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
-                <div>
-                    <label>Rows per page:</label>
-                    <select id="rowsPerPageSelect" onchange="changeRowsPerPage()" style="margin-left: 10px;">
+            <!-- Pagination -->
+            <div class="pagination-controls">
+                <label>Rows per page:
+                    <select id="rowsPerPageSelect" onchange="changeRowsPerPage()">
                         <option value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
                     </select>
-                </div>
+                </label>
                 <div id="pageInfo" style="color: #666; font-weight: 600;"></div>
-                <div id="paginationButtons" style="display: flex; gap: 5px;"></div>
+                <div id="paginationButtons" style="display: flex; gap: 5px; flex-wrap: wrap;"></div>
             </div>
 
-            <!-- Employees Table -->
-            <div class="table-wrapper">
-                <div id="loadingContainer" class="loading" style="display: none;">
-                    <div class="spinner"></div>
-                    <p>Loading employees...</p>
-                </div>
-                <table id="employeesTable" style="display: none;">
-                    <thead>
-                        <tr>
-                            <th onclick="sortTable('id')" style="cursor: pointer; user-select: none;">ID <span id="sort-id"></span></th>
-                            <th onclick="sortTable('name')" style="cursor: pointer; user-select: none;">Name <span id="sort-name"></span></th>
-                            <th onclick="sortTable('email')" style="cursor: pointer; user-select: none;">Email <span id="sort-email"></span></th>
-                            <th onclick="sortTable('department')" style="cursor: pointer; user-select: none;">Department <span id="sort-department"></span></th>
-                            <th onclick="sortTable('designation')" style="cursor: pointer; user-select: none;">Designation <span id="sort-designation"></span></th>
-                            <th onclick="sortTable('salary')" style="cursor: pointer; user-select: none;">Salary <span id="sort-salary"></span></th>
-                            <th onclick="sortTable('dateOfJoining')" style="cursor: pointer; user-select: none;">Date of Joining <span id="sort-dateOfJoining"></span></th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="employeesBody">
-                    </tbody>
-                </table>
-                <div id="emptyState" class="empty-state" style="display: none;">
-                    <p>No employees found</p>
-                </div>
+            <!-- Table -->
+            <div id="loadingContainer" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Loading employees...</p>
+            </div>
+            <table id="employeesTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable('id')" style="cursor: pointer;">ID <span id="sort-id"></span></th>
+                        <th onclick="sortTable('name')" style="cursor: pointer;">Name <span id="sort-name"></span></th>
+                        <th onclick="sortTable('email')" style="cursor: pointer;">Email <span id="sort-email"></span></th>
+                        <th onclick="sortTable('department')" style="cursor: pointer;">Department <span id="sort-department"></span></th>
+                        <th onclick="sortTable('designation')" style="cursor: pointer;">Designation <span id="sort-designation"></span></th>
+                        <th onclick="sortTable('salary')" style="cursor: pointer;">Salary <span id="sort-salary"></span></th>
+                        <th onclick="sortTable('dateOfJoining')" style="cursor: pointer;">Date of Joining <span id="sort-dateOfJoining"></span></th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="employeesBody"></tbody>
+            </table>
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <p>No employees found</p>
             </div>
         </div>
     </div>
@@ -705,7 +570,7 @@
                     </div>
                     <div class="form-group">
                         <label for="phoneNumber">Phone Number</label>
-                        <input type="tel" id="phoneNumber" placeholder="e.g., 9876543210">
+                        <input type="tel" id="phoneNumber">
                     </div>
                     <div class="form-group">
                         <label for="department">Department *</label>
@@ -727,19 +592,21 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-                <button type="submit" class="btn btn-primary" form="employeeForm">Save Employee</button>
+                <button type="submit" class="btn btn-primary" onclick="document.getElementById('employeeForm').dispatchEvent(new Event('submit'))">Save Employee</button>
             </div>
         </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
+    <!-- Delete Modal -->
     <div id="deleteModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Confirm Delete</h2>
                 <button class="close-btn" onclick="closeDeleteModal()">×</button>
             </div>
-            <p id="deleteMessage" style="margin-bottom: 20px;"></p>
+            <div class="modal-body">
+                <p id="deleteMessage" style="margin-bottom: 20px;"></p>
+            </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
                 <button class="btn btn-danger" onclick="confirmDelete()">Delete</button>
@@ -756,14 +623,10 @@
         let currentPage = 1;
         let rowsPerPage = 10;
         let sortColumn = null;
-        let sortDirection = 'asc'; // 'asc' or 'desc'
+        let sortDirection = 'asc';
 
-        // Load employees on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            loadEmployees();
-        });
+        document.addEventListener('DOMContentLoaded', () => loadEmployees());
 
-        // Load all employees
         async function loadEmployees() {
             showLoading(true);
             try {
@@ -782,14 +645,12 @@
                 }
             } catch (error) {
                 console.error('Error:', error);
-                showAlert('Failed to connect to server. Is it running on port 8080?', 'error');
+                showAlert('Failed to connect to server', 'error');
                 showLoading(false);
             }
         }
 
-        // Sort table
         function sortTable(column) {
-            // If clicking the same column, toggle direction; otherwise, set to asc
             if (sortColumn === column) {
                 sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
             } else {
@@ -797,10 +658,8 @@
                 sortDirection = 'asc';
             }
 
-            // Clear all sort indicators
-            document.querySelectorAll('[id^="sort-"]').forEach(el => el.textContent = '');
+            document.querySelectorAll('[id^="sort-"]').forEach(el => el.innerHTML = '');
 
-            // Sort the filtered employees
             filteredEmployees.sort((a, b) => {
                 let aVal, bVal;
 
@@ -834,48 +693,37 @@
                 }
             });
 
-            // Add sort indicator
             const indicator = sortDirection === 'asc' ? '▲' : '▼';
             const sortEl = document.getElementById(`sort-${column}`);
-            if (sortEl) {
-                sortEl.textContent = `<span class="sort-indicator">${indicator}</span>`;
-                sortEl.innerHTML = `<span class="sort-indicator" style="color: #667eea;">${indicator}</span>`;
-            }
+            if (sortEl) sortEl.innerHTML = `<span style="color: #667eea;">${indicator}</span>`;
 
             currentPage = 1;
             renderTable();
         }
 
-        // Render employees table with pagination
         function renderTable() {
             const table = document.getElementById('employeesTable');
             const emptyState = document.getElementById('emptyState');
             const tbody = document.getElementById('employeesBody');
 
-            // Calculate and display statistics
             calculateStats(filteredEmployees);
 
             if (filteredEmployees.length === 0) {
                 table.style.display = 'none';
                 emptyState.style.display = 'block';
-                document.querySelector('.pagination-controls').style.display = 'none';
                 return;
             }
 
             table.style.display = 'table';
             emptyState.style.display = 'none';
-            document.querySelector('.pagination-controls').style.display = 'flex';
 
-            // Calculate pagination
             const totalPages = Math.ceil(filteredEmployees.length / rowsPerPage);
             const startIdx = (currentPage - 1) * rowsPerPage;
             const endIdx = startIdx + rowsPerPage;
             const pageData = filteredEmployees.slice(startIdx, endIdx);
 
-            // Clear tbody
             tbody.innerHTML = '';
 
-            // Add rows
             pageData.forEach(emp => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -896,20 +744,14 @@
                 tbody.appendChild(row);
             });
 
-            // Update page info
-            document.getElementById('pageInfo').textContent = 
-                `Page ${currentPage} of ${totalPages} (${filteredEmployees.length} total)`;
-
-            // Update pagination buttons
+            document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages} (${filteredEmployees.length} total)`;
             renderPaginationButtons(totalPages);
         }
 
-        // Render pagination buttons
         function renderPaginationButtons(totalPages) {
             const container = document.getElementById('paginationButtons');
             container.innerHTML = '';
 
-            // Previous button
             const prevBtn = document.createElement('button');
             prevBtn.className = 'pagination-btn';
             prevBtn.textContent = '← Previous';
@@ -922,7 +764,6 @@
             };
             container.appendChild(prevBtn);
 
-            // Page number buttons
             for (let i = 1; i <= totalPages; i++) {
                 const btn = document.createElement('button');
                 btn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
@@ -934,7 +775,6 @@
                 container.appendChild(btn);
             }
 
-            // Next button
             const nextBtn = document.createElement('button');
             nextBtn.className = 'pagination-btn';
             nextBtn.textContent = 'Next →';
@@ -948,29 +788,21 @@
             container.appendChild(nextBtn);
         }
 
-        // Change rows per page
         function changeRowsPerPage() {
             rowsPerPage = parseInt(document.getElementById('rowsPerPageSelect').value);
             currentPage = 1;
             renderTable();
         }
 
-        // Search employees
         function searchEmployees() {
-            const query = document.getElementById('searchInput').value.trim();
-            if (query === '') {
-                filteredEmployees = [...employees];
-            } else {
-                filteredEmployees = employees.filter(emp =>
-                    emp.firstName.toLowerCase().includes(query.toLowerCase()) ||
-                    emp.lastName.toLowerCase().includes(query.toLowerCase())
-                );
-            }
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            filteredEmployees = query === '' ? [...employees] : employees.filter(emp =>
+                emp.firstName.toLowerCase().includes(query) || emp.lastName.toLowerCase().includes(query)
+            );
             currentPage = 1;
             renderTable();
         }
 
-        // Clear search
         function clearSearch() {
             document.getElementById('searchInput').value = '';
             filteredEmployees = [...employees];
@@ -978,7 +810,42 @@
             renderTable();
         }
 
-        // Open add modal
+        // Statistics
+        function calculateStats(data) {
+            const container = document.getElementById('statsContainer');
+            if (data.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            const totalEmployees = data.length;
+            const totalSalary = data.reduce((sum, emp) => sum + (emp.salary || 0), 0);
+            const avgSalary = Math.round(totalSalary / totalEmployees);
+            const deptCount = new Set(data.map(emp => emp.department)).size;
+
+            container.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-label">Total Employees</div>
+                    <div class="stat-value">${totalEmployees}</div>
+                </div>
+                <div class="stat-card alt1">
+                    <div class="stat-label">Average Salary</div>
+                    <div class="stat-value">₹${avgSalary.toLocaleString('en-IN')}</div>
+                    <div class="stat-unit">per month</div>
+                </div>
+                <div class="stat-card alt2">
+                    <div class="stat-label">Departments</div>
+                    <div class="stat-value">${deptCount}</div>
+                </div>
+                <div class="stat-card alt3">
+                    <div class="stat-label">Total Payroll</div>
+                    <div class="stat-value">₹${(totalSalary / 100000).toFixed(1)}L</div>
+                    <div class="stat-unit">monthly</div>
+                </div>
+            `;
+        }
+
+        // Modal Management
         function openAddModal() {
             currentEditId = null;
             document.getElementById('modalTitle').textContent = 'Add Employee';
@@ -986,7 +853,6 @@
             document.getElementById('employeeModal').classList.add('active');
         }
 
-        // Open edit modal
         async function openEditModal(id) {
             const emp = employees.find(e => e.id === id);
             if (!emp) return;
@@ -1004,18 +870,11 @@
             document.getElementById('employeeModal').classList.add('active');
         }
 
-        // Close modal
         function closeModal() {
             document.getElementById('employeeModal').classList.remove('active');
             currentEditId = null;
         }
 
-        // Save employee
-        function submitForm() {
-            document.getElementById('employeeForm').dispatchEvent(new Event('submit'));
-        }
-
-        // Save employee
         async function saveEmployee(event) {
             event.preventDefault();
 
@@ -1036,9 +895,7 @@
 
                 const response = await fetch(url, {
                     method: method,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData)
                 });
 
@@ -1049,161 +906,28 @@
                     closeModal();
                     loadEmployees();
                 } else {
-                    if (result.data && typeof result.data === 'object') {
-                        const errors = Object.values(result.data).join(', ');
-                        showAlert(errors, 'error');
-                    } else {
-                        showAlert(result.message, 'error');
-                    }
+                    showAlert(result.message || 'Error saving employee', 'error');
                 }
             } catch (error) {
                 console.error('Error:', error);
                 showAlert('Error saving employee', 'error');
             }
         }
-            if (data.length === 0) {
-                document.getElementById('statsContainer').innerHTML = '';
-                return;
-            }
 
-            // Total count
-            const totalEmployees = data.length;
-
-            // Average salary
-            const totalSalary = data.reduce((sum, emp) => sum + emp.salary, 0);
-            const avgSalary = (totalSalary / totalEmployees).toFixed(0);
-
-            // Group by department
-            const departmentStats = {};
-            data.forEach(emp => {
-                if (!departmentStats[emp.department]) {
-                    departmentStats[emp.department] = {
-                        count: 0,
-                        totalSalary: 0
-                    };
-                }
-                departmentStats[emp.department].count++;
-                departmentStats[emp.department].totalSalary += emp.salary;
-            });
-
-            // Find max department count for bar width
-            const maxDeptCount = Math.max(...Object.values(departmentStats).map(d => d.count));
-
-            // Build HTML
-            let html = `
-                <div class="stat-card">
-                    <div class="stat-label">Total Employees</div>
-                    <div class="stat-value">${totalEmployees}</div>
-                </div>
-                <div class="stat-card alt1">
-                    <div class="stat-label">Average Salary</div>
-                    <div class="stat-value">₹${parseInt(avgSalary).toLocaleString('en-IN')}</div>
-                    <div class="stat-unit">per month</div>
-                </div>
-                <div class="stat-card alt2">
-                    <div class="stat-label">Departments</div>
-                    <div class="stat-value">${Object.keys(departmentStats).length}</div>
-                    <div class="department-stats">
-            `;
-
-            // Add department breakdown
-            Object.entries(departmentStats).forEach(([dept, stats]) => {
-                const percentage = (stats.count / totalEmployees) * 100;
-                const barWidth = (stats.count / maxDeptCount) * 100;
-                html += `
-                    <div class="department-stat">
-                        <div>
-                            <div style="font-weight: 600;">${dept}</div>
-                            <div style="font-size: 0.85em; opacity: 0.8;">${stats.count} employee${stats.count !== 1 ? 's' : ''}</div>
-                        </div>
-                        <div style="text-align: right; font-size: 0.85em; opacity: 0.8;">${percentage.toFixed(0)}%</div>
-                    </div>
-                    <div class="department-stat-bar">
-                        <div class="department-stat-fill" style="width: ${barWidth}%"></div>
-                    </div>
-                `;
-            });
-
-            html += `
-                    </div>
-                </div>
-                <div class="stat-card alt3">
-                    <div class="stat-label">Total Salary Cost</div>
-                    <div class="stat-value">₹${(totalSalary / 100000).toFixed(1)}L</div>
-                    <div class="stat-unit">monthly payroll</div>
-                </div>
-            `;
-
-            document.getElementById('statsContainer').innerHTML = html;
-        
-            event.preventDefault();
-
-            const formData = {
-                firstName: document.getElementById('firstName').value,
-                lastName: document.getElementById('lastName').value,
-                email: document.getElementById('email').value,
-                phoneNumber: document.getElementById('phoneNumber').value,
-                department: document.getElementById('department').value,
-                designation: document.getElementById('designation').value,
-                salary: parseFloat(document.getElementById('salary').value),
-                dateOfJoining: document.getElementById('dateOfJoining').value
-            };
-
-            try {
-                const method = currentEditId ? 'PUT' : 'POST';
-                const url = currentEditId ? `${API_URL}/${currentEditId}` : API_URL;
-
-                const response = await fetch(url, {
-                    method: method,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    showAlert(result.message, 'success');
-                    closeModal();
-                    loadEmployees();
-                } else {
-                    // Check if it's a validation error
-                    if (result.data && typeof result.data === 'object') {
-                        const errors = Object.values(result.data).join(', ');
-                        showAlert(errors, 'error');
-                    } else {
-                        showAlert(result.message, 'error');
-                    }
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                showAlert('Error saving employee', 'error');
-            }
-        
-
-        // Open delete confirmation modal
         function openDeleteModal(id, name) {
             deleteTargetId = id;
-            document.getElementById('deleteMessage').textContent = `Are you sure you want to delete ${name}? This action cannot be undone.`;
+            document.getElementById('deleteMessage').textContent = `Are you sure you want to delete ${name}?`;
             document.getElementById('deleteModal').classList.add('active');
         }
 
-        // Close delete modal
         function closeDeleteModal() {
             document.getElementById('deleteModal').classList.remove('active');
             deleteTargetId = null;
         }
 
-        // Confirm delete
         async function confirmDelete() {
-            if (deleteTargetId === null) return;
-
             try {
-                const response = await fetch(`${API_URL}/${deleteTargetId}`, {
-                    method: 'DELETE'
-                });
-
+                const response = await fetch(`${API_URL}/${deleteTargetId}`, { method: 'DELETE' });
                 const result = await response.json();
 
                 if (result.success) {
@@ -1219,27 +943,20 @@
             }
         }
 
-        // Show alert
         function showAlert(message, type) {
             const container = document.getElementById('alertContainer');
             const alert = document.createElement('div');
             alert.className = `alert alert-${type}`;
             alert.textContent = message;
             container.appendChild(alert);
-
-            setTimeout(() => {
-                alert.remove();
-            }, 4000);
+            setTimeout(() => alert.remove(), 4000);
         }
 
-        // Show/hide loading
         function showLoading(show) {
             document.getElementById('loadingContainer').style.display = show ? 'block' : 'none';
             document.getElementById('employeesTable').style.display = show ? 'none' : 'table';
-            document.getElementById('emptyState').style.display = 'none';
         }
 
-        // Close modal on Escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeModal();
@@ -1247,13 +964,9 @@
             }
         });
 
-        // Close modal on outside click
         document.addEventListener('click', (e) => {
-            const modal = document.getElementById('employeeModal');
-            const deleteModal = document.getElementById('deleteModal');
-            
-            if (e.target === modal) closeModal();
-            if (e.target === deleteModal) closeDeleteModal();
+            if (e.target === document.getElementById('employeeModal')) closeModal();
+            if (e.target === document.getElementById('deleteModal')) closeDeleteModal();
         });
     </script>
 </body>
